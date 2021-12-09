@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DocumentBroker": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
