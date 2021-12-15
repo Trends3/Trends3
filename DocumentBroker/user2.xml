@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<users>
+	<user id = "1">
+		<firstname>Ben</firstname>
+		<lastname>Dover</lastname>
+		<gender>Male</gender>
+		<nationality>Belgian</nationality>
+		<housenumber>1</housenumber>
+		<zip>1000</zip>
+		<email>ben@dover.com</email>
+	</user>
+</users>
