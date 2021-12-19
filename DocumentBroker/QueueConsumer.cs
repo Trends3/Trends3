@@ -12,6 +12,7 @@ namespace DocumentBroker
     {
         public static void Consume(IModel channel)
         {
+            //Queue maken en consumen (luisteren of er berichten op de queue komen en bekijken)
             channel.QueueDeclare("queue1",
                 durable: true,
                 exclusive: false,
@@ -21,6 +22,7 @@ namespace DocumentBroker
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (sender, e) =>
             {
+                //message tonen die op queue binnenkomt
                 var body = e.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 Console.WriteLine(message);
