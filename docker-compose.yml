@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  documentbroker:
+    image: ${DOCKER_REGISTRY-}documentbroker
+    build:
+      context: .
+      dockerfile: DocumentBroker/Dockerfile
