@@ -10,9 +10,9 @@ namespace DocumentBroker.Utils
         {
             //XMLCollection
             XmlSchemaCollection collection = new XmlSchemaCollection();
-            collection.Add("", "User_control.xsd");
+            collection.Add("", "GenerateRequest_validator.xsd");
 
-            XmlTextReader r = new XmlTextReader("user2.xml");
+            XmlTextReader r = new XmlTextReader("GenerateDocumentRequest.xml");
             XmlValidatingReader v = new XmlValidatingReader(r);
             v.ValidationType = ValidationType.Schema;
 
@@ -33,7 +33,7 @@ namespace DocumentBroker.Utils
             else
                 Console.WriteLine("Document is invalid");
         }
-
+        
         public static void MyValidationEventHandler(object sender,
                                            ValidationEventArgs args)
         {

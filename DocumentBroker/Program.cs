@@ -11,7 +11,7 @@ class Program
     //  connection.Open();
 
 //Connection naar Rabbitmq Docker Container
-public static string URI = "amqp://guest:guest@172.17.0.3:5672";
+public static string URI = "amqp://guest:guest@172.18.0.2:5672";
 
     static void Main(string[] args)
     {
@@ -22,9 +22,9 @@ public static string URI = "amqp://guest:guest@172.17.0.3:5672";
             Uri = new Uri(URI)
         };
         //Consumer voor queue
-        using var connection = factory.CreateConnection();
-        using var channel = connection.CreateModel();
-        QueueConsumer.Consume(channel);
+        //using var connection = factory.CreateConnection();
+        //using var channel = connection.CreateModel();
+        //QueueConsumer.Consume(channel);
 
         Validator.validation();
     }
