@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validation\" />
+    <None Update="GenerateRequest_validator2.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
 
 </Project>

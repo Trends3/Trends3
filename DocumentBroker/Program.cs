@@ -16,6 +16,7 @@ public static string URI = "amqp://guest:guest@172.18.0.2:5672";
     static void Main(string[] args)
     {
 
+        
        
         var factory = new ConnectionFactory
         {
@@ -27,6 +28,9 @@ public static string URI = "amqp://guest:guest@172.18.0.2:5672";
         //QueueConsumer.Consume(channel);
 
         Validator.validation();
+
+        RequestAnalyser.SearchRequest("GenerateDocumentRequest.xml", "Generate");
+
     }
 
 }

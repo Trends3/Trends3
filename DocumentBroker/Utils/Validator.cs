@@ -10,7 +10,10 @@ namespace DocumentBroker.Utils
         {
             //XMLCollection
             XmlSchemaCollection collection = new XmlSchemaCollection();
-            collection.Add("", "GenerateRequest_validator.xsd");
+            
+            collection.Add("", "GenerateRequest_validator2.xsd");
+            collection.Add("", "StoreDocument_validator.xsd");
+            collection.Add("", "GenerateStoreRequest_validator.xsd");
 
             XmlTextReader r = new XmlTextReader("GenerateDocumentRequest.xml");
             XmlValidatingReader v = new XmlValidatingReader(r);
@@ -29,9 +32,13 @@ namespace DocumentBroker.Utils
 
             // Check if document is valid or invalid.
             if (isValid)
+            {
                 Console.WriteLine("Document is valid");
+            }
             else
+            {
                 Console.WriteLine("Document is invalid");
+            }
         }
         
         public static void MyValidationEventHandler(object sender,
@@ -40,6 +47,9 @@ namespace DocumentBroker.Utils
             isValid = false;
             Console.WriteLine("Validation event\n" + args.Message);
         }
+
+
+
     }
 }
 
