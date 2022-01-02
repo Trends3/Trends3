@@ -12,8 +12,8 @@ namespace DocumentBroker.Utils
             XmlSchemaCollection collection = new XmlSchemaCollection();
             
             collection.Add("", "GenerateRequest_validator2.xsd");
-            collection.Add("", "StoreDocument_validator.xsd");
-            collection.Add("", "GenerateStoreRequest_validator.xsd");
+            //collection.Add("", "StoreDocument_validator.xsd");
+            //collection.Add("", "GenerateStoreRequest_validator.xsd");
 
             XmlTextReader r = new XmlTextReader("GenerateDocumentRequest.xml");
             XmlValidatingReader v = new XmlValidatingReader(r);
