@@ -29,7 +29,9 @@ public static string URI = "amqp://guest:guest@172.18.0.2:5672";
 
         Validator.validation();
 
-        RequestAnalyser.SearchRequest("GenerateDocumentRequest.xml", "Generate");
+        RequestAnalyser.SearchRequest(@"GenerateDocumentRequest.xml");
+        RequestAnalyser.SearchRequest(@"StoreDocumentRequest.xml");
+        RequestAnalyser.SearchRequest(@"GenerateStoreDocumentRequest.xml");
 
     }
 
