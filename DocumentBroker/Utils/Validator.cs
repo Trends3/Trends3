@@ -6,11 +6,11 @@ namespace DocumentBroker.Utils
     static class Validator
     {
         private static bool isValid = true;
-        public static void validation(string validator, string input)
+        public static void validation(string validator , string input)
         {
             //XMLCollection
             XmlSchemaCollection collection = new XmlSchemaCollection();
-
+            
             collection.Add("", validator);
             //collection.Add("", "StoreDocument_validator.xsd");
             //collection.Add("", "GenerateStoreRequest_validator.xsd");
@@ -42,7 +42,7 @@ namespace DocumentBroker.Utils
                 Program.IsValid = false;
             }
         }
-
+        
         public static void MyValidationEventHandler(object sender,
                                            ValidationEventArgs args)
         {

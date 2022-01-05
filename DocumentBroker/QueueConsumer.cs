@@ -1,13 +1,15 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DocumentBroker
 {
     public static class QueueConsumer
     {
-        
-
         public static void Consume(IModel channel)
         {
             //Queue maken en consumen (luisteren of er berichten op de queue komen en bekijken)
