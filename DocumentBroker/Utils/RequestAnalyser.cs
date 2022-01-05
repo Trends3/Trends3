@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
+﻿using System.Xml;
 
 namespace DocumentBroker.Utils
 {
     internal static class RequestAnalyser
     {
 
-        private static bool Generate = false;
-        private static bool Store = false;
-        private static bool Generate_store1 = false;
-        private static bool Generate_store2 = false;
-       
+        public static bool Generate = false;
+        public static bool Store = false;
+        public static bool Generate_store1 = false;
+        public static bool Generate_store2 = false;
 
 
         public static void SearchRequest(string input)
         {
-               
+
             using (XmlReader reader = XmlReader.Create(input))
             {
 
@@ -29,7 +22,7 @@ namespace DocumentBroker.Utils
                 Store = false;
                 Generate_store1 = false;
                 Generate_store2 = false;
-                
+
                 while (reader.Read())
                 {
                     if (reader.IsStartElement())
@@ -51,8 +44,8 @@ namespace DocumentBroker.Utils
                                 break;
 
                             case "Store":
-                                
-                                if(string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
+
+                                if (string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
                                 {
                                     Generate = false;
                                     Store = false;
@@ -60,7 +53,7 @@ namespace DocumentBroker.Utils
 
                                     //Console.WriteLine("Het is een Generate_store request");
                                 }
-                                if(Generate_store1 == false)
+                                if (Generate_store1 == false)
                                 {
                                     Generate = false;
                                     Store = true;
