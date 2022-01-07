@@ -11,11 +11,13 @@ namespace DocumentBroker.Utils
         public void validation(string validator , string input)
         {
             //XMLCollection
-            //XmlSchemaCollection collection = new XmlSchemaCollection();
+            XmlSchemaCollection collection = new XmlSchemaCollection();
 
+            
+            
             // nieuwere code
 
-            XmlSchemaSet collection = new XmlSchemaSet();
+            //XmlSchemaSet collection = new XmlSchemaSet();
 
             // nieuwere code 
 
@@ -32,7 +34,7 @@ namespace DocumentBroker.Utils
             };
 
 
-            // voorbeeld code van de documentatie 
+            // nieuwere code
 
             //XmlReaderSettings settings = new XmlReaderSettings();
             //settings.ValidationType = ValidationType.DTD;
@@ -41,11 +43,8 @@ namespace DocumentBroker.Utils
             //settings.ValidationType = ValidationType.Schema;
             //XmlReader outer = XmlReader.Create(inner, settings);
 
+            // nieuwere code
 
-            //add the XMLCollection.
-            
-            
-            // verwacht een schema geen set.. ? 
 
             v.Schemas.Add(collection);
 
