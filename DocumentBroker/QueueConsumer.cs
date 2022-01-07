@@ -33,7 +33,7 @@ namespace DocumentBroker
                 var message = Encoding.UTF8.GetString(body);
                 validator.validation("GenerateRequest_validator2.xsd" , message);
 
-                if (Validator.isValid)
+                if (Validator.ValidForQ == true)
                 {
                   requestAnalyser.SearchRequest(message); 
                   Console.WriteLine(message);

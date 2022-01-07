@@ -5,17 +5,21 @@ namespace DocumentBroker.Utils
 {
      class Validator
     {
-        public static bool isValid = true;
+        public static bool ValidForQ;
+        private static bool isValid;
+
         public void validation(string validator , string input)
         {
             //XMLCollection
             XmlSchemaCollection collection = new XmlSchemaCollection();
-            
-            collection.Add("", validator);
-            //collection.Add("", "StoreDocument_validator.xsd");
-            //collection.Add("", "GenerateStoreRequest_validator.xsd");
+          
 
-            XmlTextReader r = new XmlTextReader(input);
+            collection.Add("", validator);
+            
+
+   
+            XmlTextReader r = new XmlTextReader(new StringReader(input));
+
             XmlValidatingReader v = new XmlValidatingReader(r);
             v.ValidationType = ValidationType.Schema;
 
@@ -24,22 +28,33 @@ namespace DocumentBroker.Utils
 
             v.ValidationEventHandler += new ValidationEventHandler(MyValidationEventHandler);
 
-            while (v.Read())
+            //while (v.Read())
+            //{
+            //    //process content
+            //}
+            try
             {
-                //process content
+                v.Read();
+                v.Close();
+
             }
-            v.Close();
+
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
 
             // Check if document is valid or invalid.
-            if (isValid)
+            if (isValid == true)
             {
                 Console.WriteLine("Document is valid");
-                
+                ValidForQ = true;
             }
             else
             {
                 Console.WriteLine("Document is invalid");
-                
+                ValidForQ = false;
             }
         }
         
