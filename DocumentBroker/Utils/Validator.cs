@@ -3,10 +3,10 @@ using System.Xml.Schema;
 
 namespace DocumentBroker.Utils
 {
-    static class Validator
+     class Validator
     {
-        private static bool isValid = true;
-        public static void validation(string validator , string input)
+        public static bool isValid = true;
+        public void validation(string validator , string input)
         {
             //XMLCollection
             XmlSchemaCollection collection = new XmlSchemaCollection();
@@ -34,12 +34,12 @@ namespace DocumentBroker.Utils
             if (isValid)
             {
                 Console.WriteLine("Document is valid");
-                Program.IsValid = true;
+                
             }
             else
             {
                 Console.WriteLine("Document is invalid");
-                Program.IsValid = false;
+                
             }
         }
         

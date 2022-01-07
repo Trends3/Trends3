@@ -11,8 +11,7 @@ class Program
     //  connection.Open();
 
 //Connection naar Rabbitmq Docker Container
-public static string URI = "amqp://guest:guest@172.19.0.3:5672";
-    public static bool IsValid;
+public static string URI = "amqp://guest:guest@172.18.0.2:5672";
 
     static void Main(string[] args)
     {
@@ -26,21 +25,25 @@ public static string URI = "amqp://guest:guest@172.19.0.3:5672";
         //Consumer voor queue
         using var connection = factory.CreateConnection();
         using var channel = connection.CreateModel();
-        QueueConsumer.Consume(channel);
+        //QueueConsumer.Consume(channel);
+
+        QueueConsumer queueConsumer = new QueueConsumer();  
+
+        queueConsumer.Consume(channel);
 
 
         // document valideren ( op alle param.)
 
-        Validator.validation("GenerateRequest_validator2.xsd" , "GenerateDocumentRequest.xml");
+        //Validator.validation("GenerateRequest_validator2.xsd" , "GenerateDocumentRequest.xml");
 
 
-        // zoeken naar een bepaalde tag, om de request te kennen
+        //// zoeken naar een bepaalde tag, om de request te kennen
 
-        if (IsValid)
-        {
-            RequestAnalyser.SearchRequest(@"GenerateDocumentRequest.xml");
-            RequestAnalyser.SearchRequest(@"StoreDocumentRequest.xml");
-            RequestAnalyser.SearchRequest(@"GenerateStoreDocumentRequest.xml");
-        }
+        //if (IsValid)
+        //{
+        //    RequestAnalyser.SearchRequest(@"GenerateDocumentRequest.xml");
+        //    RequestAnalyser.SearchRequest(@"StoreDocumentRequest.xml");
+        //    RequestAnalyser.SearchRequest(@"GenerateStoreDocumentRequest.xml");
+        //}
     }
 }

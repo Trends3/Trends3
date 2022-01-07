@@ -8,19 +8,19 @@ using System.Xml.Linq;
 
 namespace DocumentBroker.Utils
 {
-    internal static class RequestAnalyser
+    class RequestAnalyser
     {
 
-        public static bool Generate = false;
-        public static bool Store = false;
-        public static bool Generate_store1 = false;
-        public static bool Generate_store2 = false;
+        private static bool Generate = false;
+        private static bool Store = false;
+        private static bool Generate_store1 = false;
+        private static bool Generate_store2 = false;
        
 
-        public static void SearchRequest(string input)
+        public  void SearchRequest(string input)
         {
                
-            using (XmlReader reader = XmlReader.Create(input))
+            using (XmlReader reader = XmlReader.Create(new StringReader(input)))
             {
 
 
@@ -33,6 +33,7 @@ namespace DocumentBroker.Utils
                 {
                     if (reader.IsStartElement())
                     {
+                      
                         //return only when you have START tag  
                         switch (reader.Name.ToString())
                         {
