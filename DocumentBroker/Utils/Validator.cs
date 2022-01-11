@@ -5,7 +5,7 @@ namespace DocumentBroker.Utils
 {
      class Validator
     {
-        public static bool ValidForQ;
+        public static char ValidForQ;
         private static bool isValid;
         private static bool isValidDoc;
 
@@ -71,15 +71,19 @@ namespace DocumentBroker.Utils
             }
 
             // Check if document is valid or invalid.
-            if (isValid == true || isValidDoc == true)
+            if (isValid == true)
             {
                 Console.WriteLine("Document is valid");
-                ValidForQ = true;
+                ValidForQ = '1';
+            }else if (isValidDoc == true)
+            {
+                Console.WriteLine("Document is valid");
+                ValidForQ = '2';
             }
             else
             {
                 Console.WriteLine("Document is invalid");
-                ValidForQ = false;
+                ValidForQ = '0';
             }
         }
         

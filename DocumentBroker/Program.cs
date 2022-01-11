@@ -11,7 +11,7 @@ class Program
     //  connection.Open();
 
 //Connection naar Rabbitmq Docker Container
-public static string URI = "amqp://guest:guest@172.18.0.2:5672";
+public static string URI = "amqp://guest:guest@172.20.0.3:5672";
 
     static void Main(string[] args)
     {

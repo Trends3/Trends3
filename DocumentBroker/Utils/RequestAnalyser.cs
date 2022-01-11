@@ -17,59 +17,118 @@ namespace DocumentBroker.Utils
         private static bool Generate_store2 = false;
        
 
-        public  void SearchRequest(string input)
+        public  void SearchRequest(string input, bool isString)
         {
-               
-            using (XmlReader reader = XmlReader.Create(new StringReader(input)))
+            if (isString)
             {
-
-
-                Generate = false;
-                Store = false;
-                Generate_store1 = false;
-                Generate_store2 = false;
-                
-                while (reader.Read())
+                using (XmlReader reader = XmlReader.Create(new StringReader(input)))
                 {
-                    if (reader.IsStartElement())
+
+
+                    Generate = false;
+                    Store = false;
+                    Generate_store1 = false;
+                    Generate_store2 = false;
+                
+                    while (reader.Read())
                     {
-                      
-                        //return only when you have START tag  
-                        switch (reader.Name.ToString())
+                        if (reader.IsStartElement())
                         {
-                            case "Generate":
+                      
+                            //return only when you have START tag  
+                            switch (reader.Name.ToString())
+                            {
+                                case "Generate":
 
-                                if (string.IsNullOrEmpty(reader.ReadString()) == false)
-                                {
-                                    Generate = true;
-                                    Store = false;
-                                    Generate_store1 = true;
+                                    if (string.IsNullOrEmpty(reader.ReadString()) == false)
+                                    {
+                                        Generate = true;
+                                        Store = false;
+                                        Generate_store1 = true;
 
-                                    //Console.WriteLine("Het is een generate request");
-                                }
+                                        //Console.WriteLine("Het is een generate request");
+                                    }
 
-                                break;
+                                    break;
 
-                            case "Store":
+                                case "Store":
                                 
-                                if(string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
-                                {
-                                    Generate = false;
-                                    Store = false;
-                                    Generate_store2 = true;
+                                    if(string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
+                                    {
+                                        Generate = false;
+                                        Store = false;
+                                        Generate_store2 = true;
 
-                                    //Console.WriteLine("Het is een Generate_store request");
-                                }
-                                if(Generate_store1 == false)
-                                {
-                                    Generate = false;
-                                    Store = true;
-                                    Generate_store2 = false;
+                                        //Console.WriteLine("Het is een Generate_store request");
+                                    }
+                                    if(Generate_store1 == false)
+                                    {
+                                        Generate = false;
+                                        Store = true;
+                                        Generate_store2 = false;
 
-                                    //Console.WriteLine("Het is een store request");
-                                }
+                                        //Console.WriteLine("Het is een store request");
+                                    }
 
-                                break;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                using (XmlReader reader = XmlReader.Create(input))
+                {
+
+
+                    Generate = false;
+                    Store = false;
+                    Generate_store1 = false;
+                    Generate_store2 = false;
+
+                    while (reader.Read())
+                    {
+                        if (reader.IsStartElement())
+                        {
+
+                            //return only when you have START tag  
+                            switch (reader.Name.ToString())
+                            {
+                                case "Generate":
+
+                                    if (string.IsNullOrEmpty(reader.ReadString()) == false)
+                                    {
+                                        Generate = true;
+                                        Store = false;
+                                        Generate_store1 = true;
+
+                                        //Console.WriteLine("Het is een generate request");
+                                    }
+
+                                    break;
+
+                                case "Store":
+
+                                    if (string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
+                                    {
+                                        Generate = false;
+                                        Store = false;
+                                        Generate_store2 = true;
+
+                                        //Console.WriteLine("Het is een Generate_store request");
+                                    }
+                                    if (Generate_store1 == false)
+                                    {
+                                        Generate = false;
+                                        Store = true;
+                                        Generate_store2 = false;
+
+                                        //Console.WriteLine("Het is een store request");
+                                    }
+
+                                    break;
+                            }
                         }
                     }
                 }

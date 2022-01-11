@@ -31,12 +31,18 @@ namespace DocumentBroker
                 //message tonen die op queue binnenkomt
                 var body = e.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                validator.validation("GenerateRequest_validator2.xsd" , message);
+                ////validator.validation("GenerateRequest_validator2.xsd" , message);
+                validator.validation("StoreDocument_validator.xsd", message);
 
-                if (Validator.ValidForQ == true)
+                if (Validator.ValidForQ == '1')
                 {
-                  requestAnalyser.SearchRequest(message); 
+                  requestAnalyser.SearchRequest(message, true);
                   Console.WriteLine(message);
+                }
+                else if (Validator.ValidForQ == '2')
+                {
+                    requestAnalyser.SearchRequest(message, false);
+                    Console.WriteLine(message);
                 }
 
             };
