@@ -17,10 +17,9 @@ namespace DocumentBroker.Utils
         private static bool Generate_store2 = false;
        
 
-        public  void SearchRequest(string input, bool isString)
+        public char SearchRequest(string input)
         {
-            if (isString)
-            {
+            try {
                 using (XmlReader reader = XmlReader.Create(new StringReader(input)))
                 {
 
@@ -76,7 +75,11 @@ namespace DocumentBroker.Utils
                     }
                 }
             }
-            else
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            try
             {
                 using (XmlReader reader = XmlReader.Create(input))
                 {
@@ -133,22 +136,30 @@ namespace DocumentBroker.Utils
                     }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             //Console.ReadKey();
             if (Generate == true)
             {
                 Console.WriteLine("Het is een Generate request");
                 Console.WriteLine("");
+                return 'g';
             }
             if (Store == true)
             {
                 Console.WriteLine("Het is een store request");
                 Console.WriteLine("");
+                return 's';
             }
             if (Generate_store2 == true)
             {
                 Console.WriteLine("Het is een Generate_store request");
                 Console.WriteLine("");
+                return '0';
             }
+            return '9';
         }
     }
 }
