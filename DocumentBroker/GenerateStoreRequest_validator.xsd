@@ -1,9 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="GenerateStoreRequest"
-    targetNamespace="http://tempuri.org/GenerateStoreRequest.xsd"
-    elementFormDefault="qualified"
-    xmlns="http://tempuri.org/GenerateStoreRequest.xsd"
-    xmlns:mstns="http://tempuri.org/GenerateStoreRequest.xsd"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="GenerateStoreDocumentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Context">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:string" name="UserName"/>
+							<xs:element type="xs:string" name="Application"/>
+							<xs:element type="xs:string" name="RequestId"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Document">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:string" name="DocumentType"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Generate">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Parameters">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element type="xs:string" name="Naam"/>
+										<xs:element type="xs:float" name="Bedrag"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Store">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:string" name="Permanent"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

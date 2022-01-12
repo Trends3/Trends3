@@ -3,13 +3,13 @@ using System.Xml.Schema;
 
 namespace DocumentBroker.Utils
 {
-     class Validator
+    class Validator
     {
         public static bool ValidForQ;
         private static bool isValid;
         private static bool isValidDoc;
 
-        public void validation(string validator , string input)
+        public void validation(string validator, string input)
         {
             //XMLCollection
             XmlSchemaCollection collection = new XmlSchemaCollection();
@@ -82,7 +82,7 @@ namespace DocumentBroker.Utils
                 ValidForQ = false;
             }
         }
-        
+
         public static void MyValidationEventHandler(object sender,
                                            ValidationEventArgs args)
         {

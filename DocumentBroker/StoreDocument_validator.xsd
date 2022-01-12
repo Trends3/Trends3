@@ -1,9 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="StoreDocumentRequest_validator"
-    targetNamespace="http://tempuri.org/StoreDocumentRequest_validator.xsd"
-    elementFormDefault="qualified"
-    xmlns="http://tempuri.org/StoreDocumentRequest_validator.xsd"
-    xmlns:mstns="http://tempuri.org/StoreDocumentRequest_validator.xsd"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="StoreDocumentRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Context">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:string" name="UserName"/>
+							<xs:element type="xs:string" name="Application"/>
+							<xs:element type="xs:string" name="RequestId"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Document">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:string" name="DocumentType"/>
+							<xs:element type="xs:string" name="Binary"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Store">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:string" name="Permanent"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>

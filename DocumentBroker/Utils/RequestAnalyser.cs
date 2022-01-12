@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
+﻿using System.Xml;
 
 namespace DocumentBroker.Utils
 {
@@ -15,25 +9,26 @@ namespace DocumentBroker.Utils
         private static bool Store = false;
         private static bool Generate_store1 = false;
         private static bool Generate_store2 = false;
-       
+
 
         public char SearchRequest(string input)
         {
-            try {
+            try
+            {
                 using (XmlReader reader = XmlReader.Create(new StringReader(input)))
                 {
-
-
+                
+                        
                     Generate = false;
                     Store = false;
                     Generate_store1 = false;
                     Generate_store2 = false;
-                
+
                     while (reader.Read())
                     {
                         if (reader.IsStartElement())
                         {
-                      
+
                             //return only when you have START tag  
                             switch (reader.Name.ToString())
                             {
@@ -51,8 +46,8 @@ namespace DocumentBroker.Utils
                                     break;
 
                                 case "Store":
-                                
-                                    if(string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
+
+                                    if (string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
                                     {
                                         Generate = false;
                                         Store = false;
@@ -60,7 +55,7 @@ namespace DocumentBroker.Utils
 
                                         //Console.WriteLine("Het is een Generate_store request");
                                     }
-                                    if(Generate_store1 == false)
+                                    if (Generate_store1 == false)
                                     {
                                         Generate = false;
                                         Store = true;

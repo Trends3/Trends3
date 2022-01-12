@@ -1,11 +1,7 @@
 ﻿using DocumentBroker.Utils;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DocumentBroker
 {
@@ -14,7 +10,7 @@ namespace DocumentBroker
 
         private Validator validator = new Validator();
         private RequestAnalyser requestAnalyser = new RequestAnalyser();
-       
+
         public void Consume(IModel channel)
         {
             //Queue maken en consumen (luisteren of er berichten op de queue komen en bekijken)
@@ -27,12 +23,12 @@ namespace DocumentBroker
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (sender, e) =>
             {
-            
+
                 //message tonen die op queue binnenkomt
                 var body = e.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 char request = requestAnalyser.SearchRequest(message);
-      
+
                 switch (request.ToString())
                 {
                     case "g":
@@ -41,13 +37,17 @@ namespace DocumentBroker
                         break;
                     case "s":
                         Console.WriteLine("Store");
-                        validator.validation("", message);
+                        validator.validation("StoreDocument_validator.xsd", message);
 
                         break;
                     case "0":
                         Console.WriteLine("Generate Store");
-                        validator.validation("", message);
+                        validator.validation("GenerateStoreRequest_validator.xsd", message);
 
+                        break;
+
+                    default:
+                        Console.WriteLine("Is invalid");
                         break;
                 }
                 //validator.validation("StoreDocument_validator.xsd", message);
