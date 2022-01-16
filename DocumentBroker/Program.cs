@@ -1,4 +1,5 @@
 ﻿using DocumentBroker;
+using DocumentBroker.Queues;
 using RabbitMQ.Client;
 
 class Program
@@ -22,8 +23,18 @@ class Program
         //QueueConsumer.Consume(channel);
 
         QueueConsumer queueConsumer = new QueueConsumer();
+        QueueProducer queueProducer = new QueueProducer();
+
+        // Create all queues for the broker
+
+        queueProducer.ProduceQueues(channel);
+
+        // Create The In queue for the broker
 
         queueConsumer.Consume(channel);
+
+
+
 
 
 
