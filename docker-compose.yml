@@ -1,15 +1,7 @@
 version: '3.4'
 
 services:
-  documentbroker:
-    image: ${DOCKER_REGISTRY-}documentbroker
-    build:
-      context: .
-      dockerfile: DocumentBroker/Dockerfile
-    links:
-       - rabbitmq
-       - database 
-   
+
   rabbitmq:
     image: rabbitmq:3.9-management-alpine
     ports:
@@ -20,8 +12,17 @@ services:
     image: mcr.microsoft.com/mssql/server
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=yourStrong(!)Password
+      - SA_PASSWORD=MyVerySecurePassword123
     ports:
       - 1433:1433
-
+    
+  documentbroker:
+    image: ${DOCKER_REGISTRY-}documentbroker
+    build:
+      context: .
+      dockerfile: DocumentBroker/Dockerfile
+    links:
+       - rabbitmq
+       - database 
+     
 

@@ -74,67 +74,7 @@ namespace DocumentBroker.Utils
             {
                 Console.WriteLine(e.Message);
             }
-            try
-            {
-                using (XmlReader reader = XmlReader.Create(input))
-                {
-
-
-                    Generate = false;
-                    Store = false;
-                    Generate_store1 = false;
-                    Generate_store2 = false;
-
-                    while (reader.Read())
-                    {
-                        if (reader.IsStartElement())
-                        {
-
-                            //return only when you have START tag  
-                            switch (reader.Name.ToString())
-                            {
-                                case "Generate":
-
-                                    if (string.IsNullOrEmpty(reader.ReadString()) == false)
-                                    {
-                                        Generate = true;
-                                        Store = false;
-                                        Generate_store1 = true;
-
-                                        //Console.WriteLine("Het is een generate request");
-                                    }
-
-                                    break;
-
-                                case "Store":
-
-                                    if (string.IsNullOrEmpty(reader.ReadString()) == false && Generate_store1 == true)
-                                    {
-                                        Generate = false;
-                                        Store = false;
-                                        Generate_store2 = true;
-
-                                        //Console.WriteLine("Het is een Generate_store request");
-                                    }
-                                    if (Generate_store1 == false)
-                                    {
-                                        Generate = false;
-                                        Store = true;
-                                        Generate_store2 = false;
-
-                                        //Console.WriteLine("Het is een store request");
-                                    }
-
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            
             //Console.ReadKey();
             if (Generate == true)
             {
@@ -142,19 +82,22 @@ namespace DocumentBroker.Utils
                 Console.WriteLine("");
                 return 'g';
             }
-            if (Store == true)
+            else if (Store == true)
             {
                 Console.WriteLine("Het is een store request");
                 Console.WriteLine("");
                 return 's';
             }
-            if (Generate_store2 == true)
+            else if (Generate_store2 == true)
             {
                 Console.WriteLine("Het is een Generate_store request");
                 Console.WriteLine("");
                 return '0';
             }
-            return '9';
+            else
+            {
+                return '9';
+            }
         }
     }
 }

@@ -41,7 +41,6 @@ namespace DocumentBroker
                 //message tonen die op queue binnenkomt
                 var body = e.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                var testMessage = "";
                 char request = requestAnalyser.SearchRequest(message);
 
                 switch (request.ToString())
@@ -75,27 +74,23 @@ namespace DocumentBroker
                     switch (request.ToString())
                     {
                         case "g":
-                            testMessage = "test1";
-                            var body2 = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testMessage));
-                            channel.BasicPublish("", "Generate_Out_queue", null, body2);
-                            Console.WriteLine("Generate_Out_queue: " + testMessage);
+
+                            // een object moeten aanmaken ( request naar juiste service xml ) 
+                            // we sturen die xml op de queue van de service 
+                           
                             break;
 
                         case "s":
-                            testMessage = "test2";
-                            var body3 = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testMessage));
-                            channel.BasicPublish("", "Store_Out_queue", null, body3);
-                            Console.WriteLine("Store_Out_queue: " + testMessage);
+
+                            // een object moeten aanmaken ( request naar juiste service xml ) 
+                            // we sturen die xml op de queue van de service
 
                             break;
 
                         case "0":
-                            testMessage = "test3";
-                            var body4 = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(testMessage));
-                            channel.BasicPublish("", "Generate_Out_queue", null, body4);
-                            channel.BasicPublish("", "Store_Out_queue", null, body4);
-                            Console.WriteLine("Generate_Out_queue: " + testMessage);
-                            Console.WriteLine("Store_Out_queue: " + testMessage);
+
+                            // een object moeten aanmaken ( request naar juiste service xml ) 
+                            // we sturen die xml op de queue van de service
 
                             break;
 
