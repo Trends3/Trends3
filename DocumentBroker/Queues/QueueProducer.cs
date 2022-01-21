@@ -1,13 +1,8 @@
 ﻿using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DocumentBroker.Queues
 {
-     class QueueProducer
+    class QueueProducer
     {
         public void ProduceQueues(IModel channel)
         {
@@ -36,6 +31,6 @@ namespace DocumentBroker.Queues
                 autoDelete: false,
                 arguments: null);
         }
-       
+
     }
 }

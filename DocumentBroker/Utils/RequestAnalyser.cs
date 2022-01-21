@@ -17,8 +17,8 @@ namespace DocumentBroker.Utils
             {
                 using (XmlReader reader = XmlReader.Create(new StringReader(input)))
                 {
-                
-                        
+
+
                     Generate = false;
                     Store = false;
                     Generate_store1 = false;
@@ -74,7 +74,7 @@ namespace DocumentBroker.Utils
             {
                 Console.WriteLine(e.Message);
             }
-            
+
             //Console.ReadKey();
             if (Generate == true)
             {

@@ -1,8 +1,10 @@
-﻿using DocumentBroker.Utils;
-using Newtonsoft.Json;
+﻿using DocumentBroker.Request_objects;
+using DocumentBroker.Request_objects;
+using DocumentBroker.Utils;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DocumentBroker
 {
@@ -77,7 +79,7 @@ namespace DocumentBroker
 
                             // een object moeten aanmaken ( request naar juiste service xml ) 
                             // we sturen die xml op de queue van de service 
-                           
+
                             break;
 
                         case "s":
@@ -101,6 +103,10 @@ namespace DocumentBroker
                 }
 
             };
+            Serialize se = new Serialize();
+            se.CeateGR();
+            Console.WriteLine(se.ToString());
+
             channel.BasicConsume("Applications_In_queue", true, consumer);
             Console.WriteLine("Applications_In_queue Consumer started");
             channel.BasicConsume("Generate_In_queue", true, consumer);
@@ -108,6 +114,24 @@ namespace DocumentBroker
             channel.BasicConsume("Store_In_queue", true, consumer);
             Console.WriteLine("Store_In_queue Consumer started");
             Console.ReadLine();
+        }
+    }
+    public class Serialize
+    {
+        public string CeateGR()
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(GenerationRequest));
+            GenerationRequest gr = new GenerationRequest();
+
+            gr.Ticket = Guid.NewGuid();
+
+            Payload payload = new Payload();
+            payload.message = "Generation Request Test";
+
+            gr.payload = payload;
+            var sw = new StringWriter();
+            serializer.Serialize(sw, gr);
+            return sw.ToString();
         }
     }
 }

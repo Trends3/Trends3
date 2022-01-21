@@ -3,15 +3,16 @@ using DocumentBroker.Queues;
 using DocumentBroker.Request_objects;
 using RabbitMQ.Client;
 using System.Data.SqlClient;
-using System.Xml.Linq;
+using System.Text.Json.Serialization;
+using System.Xml;
 using System.Xml.Serialization;
 
 class Program
 {
 
-//Connection naar Rabbitmq Docker Container
+    //Connection naar Rabbitmq Docker Container
 
-public static string URI = @"amqp://guest:guest@172.18.0.2:5672";
+    public static string URI = @"amqp://guest:guest@172.18.0.2:5672";
 
     static void Main(string[] args)
     {
@@ -50,12 +51,15 @@ public static string URI = @"amqp://guest:guest@172.18.0.2:5672";
 
         }
 
+        
+        
+
         var factory = new ConnectionFactory
         {
             Uri = new Uri(URI)
         };
         //Consumer voor queue
-        
+
         using var connection2 = factory.CreateConnection();
         using var channel = connection2.CreateModel();
         //QueueConsumer.Consume(channel);
@@ -71,9 +75,11 @@ public static string URI = @"amqp://guest:guest@172.18.0.2:5672";
 
         queueConsumer.Consume(channel);
 
+       
 
-        
-        
+
+
+
     }
 
     // public void CreatePO(string filename)
@@ -90,11 +96,13 @@ public static string URI = @"amqp://guest:guest@172.18.0.2:5672";
     //public void ReadPO(string filename)
     //{
     //    XmlSerializer serializer = new XmlSerializer(typeof(GenerationRequest));
-   
+
     //    FileStream fs = new FileStream(filename, FileMode.Open);
     //    GenerationRequest po;
     //    po = (GenerationRequest)serializer.Deserialize(fs);
 
     //    Console.WriteLine(po);
     //}
+    
+    
 }

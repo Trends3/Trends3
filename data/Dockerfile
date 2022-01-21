@@ -21,6 +21,13 @@ ENTRYPOINT ["dotnet", "DocumentBroker.dll"]
 
 FROM mcr.microsoft.com/mssql/server
 
+RUN mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+
+RUN chmod +x /usr/src/app/entrypoint.sh
+
 ENV ACCEPT_EULA=Y
 ENV SA_PASSWORD=MyVerySecurePassword123
 
