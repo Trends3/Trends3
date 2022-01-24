@@ -1,9 +1,9 @@
 ﻿using DocumentBroker.Request_objects;
-using DocumentBroker.Request_objects;
 using DocumentBroker.Utils;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace DocumentBroker
@@ -24,13 +24,13 @@ namespace DocumentBroker
                 autoDelete: false,
                 arguments: null);
 
-            channel.QueueDeclare("Generate_In_queue",
+            channel.QueueDeclare("broker_to_generate",
                 durable: true,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
 
-            channel.QueueDeclare("Store_In_queue",
+            channel.QueueDeclare("broker_to_store",
                 durable: true,
                 exclusive: false,
                 autoDelete: false,
@@ -70,29 +70,30 @@ namespace DocumentBroker
 
                 if (Validator.ValidForQ == true)
                 {
-                    Console.WriteLine(message);
+                    Serialize se = new Serialize();
+                    string autoXml;
+                    byte[] encodedAutoXml;
 
                     // naar welke service moet ik gaan a.h.v. requesttype
                     switch (request.ToString())
                     {
                         case "g":
 
-                            // een object moeten aanmaken ( request naar juiste service xml ) 
-                            // we sturen die xml op de queue van de service 
-
+                            autoXml = se.CeateGR(message);
+                            encodedAutoXml = Encoding.UTF8.GetBytes(autoXml);
+                            channel.BasicPublish("", "broker_to_generate", null, encodedAutoXml);
                             break;
 
                         case "s":
 
-                            // een object moeten aanmaken ( request naar juiste service xml ) 
-                            // we sturen die xml op de queue van de service
+                            autoXml = se.CeateSR(message);
+                            encodedAutoXml = Encoding.UTF8.GetBytes(autoXml);
+                            channel.BasicPublish("", "broker_to_store", null, encodedAutoXml);
 
                             break;
 
                         case "0":
 
-                            // een object moeten aanmaken ( request naar juiste service xml ) 
-                            // we sturen die xml op de queue van de service
 
                             break;
 
@@ -103,9 +104,7 @@ namespace DocumentBroker
                 }
 
             };
-            Serialize se = new Serialize();
-            se.CeateGR();
-            Console.WriteLine(se.ToString());
+
 
             channel.BasicConsume("Applications_In_queue", true, consumer);
             Console.WriteLine("Applications_In_queue Consumer started");
@@ -118,20 +117,74 @@ namespace DocumentBroker
     }
     public class Serialize
     {
-        public string CeateGR()
+        public XmlElement Generate { get; set; }
+
+        public string CeateGR(string input)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(GenerationRequest));
             GenerationRequest gr = new GenerationRequest();
 
             gr.Ticket = Guid.NewGuid();
+            gr.DocumentType = GiveDocumentType(input);
+            gr.Payload = GiveGenerate(input);
 
-            Payload payload = new Payload();
-            payload.message = "Generation Request Test";
-
-            gr.payload = payload;
             var sw = new StringWriter();
             serializer.Serialize(sw, gr);
+
             return sw.ToString();
         }
+
+        public string CeateSR(string input)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(StorageRequest));
+            StorageRequest gr = new StorageRequest();
+
+            gr.Ticket = Guid.NewGuid();
+            gr.DocumentType = GiveDocumentType(input);
+            gr.Binary = GiveBinary(input);
+            var sw = new StringWriter();
+            serializer.Serialize(sw, gr);
+
+            return sw.ToString();
+        }
+
+        public XmlElement GiveGenerate(string input)
+        {
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(input);
+
+            XmlNode node = document.SelectSingleNode("/GenerateDocumentRequest/Generate/Parameters");
+
+            return node as XmlElement;
+        }
+
+        public XmlElement? GiveDocumentType(string input, bool isGenerate)
+        {
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(input);
+
+            XmlNode node = document.SelectSingleNode("/GenerateDocumentRequest/Document/DocumentType");
+
+            return node as XmlElement;
+        }
+
+        public XmlElement? GiveBinary(string input, bool isGenerate)
+        {
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(input);
+
+            if ()
+            {
+                XmlNode node = document.SelectSingleNode("/GenerateDocumentRequest/Document/Binary");
+            } 
+            else
+            {
+                XmlNode node = document.SelectSingleNode("/StoreDocumentRequest/Document/Binary");
+
+            }
+
+            return node as XmlElement;
+        }
+
     }
 }

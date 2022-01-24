@@ -3,8 +3,9 @@ using System.Xml.Serialization;
 
 namespace DocumentBroker.Request_objects
 {
-    [XmlRoot("GenerationRequest")]
-    public class GenerationRequest
+
+    [XmlRoot("StorageRequest")]
+    public class StorageRequest
     {
 
         [XmlElement("Ticket")]
@@ -12,7 +13,7 @@ namespace DocumentBroker.Request_objects
 
         public XmlElement? DocumentType { get; set; }
 
-        public XmlElement? Payload { get; set; }
+        public XmlElement? Binary { get; set; }
 
     }
 }
