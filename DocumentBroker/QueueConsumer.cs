@@ -117,7 +117,6 @@ namespace DocumentBroker
     }
     public class Serialize
     {
-        public XmlElement Generate { get; set; }
 
         public string CeateGR(string input)
         {
@@ -125,7 +124,7 @@ namespace DocumentBroker
             GenerationRequest gr = new GenerationRequest();
 
             gr.Ticket = Guid.NewGuid();
-            gr.DocumentType = GiveDocumentType(input);
+            gr.documentType = GiveDocumentType(input, true);
             gr.Payload = GiveGenerate(input);
 
             var sw = new StringWriter();
@@ -140,8 +139,9 @@ namespace DocumentBroker
             StorageRequest gr = new StorageRequest();
 
             gr.Ticket = Guid.NewGuid();
-            gr.DocumentType = GiveDocumentType(input);
-            gr.Binary = GiveBinary(input);
+            gr.documentType = GiveDocumentType(input, false);
+            gr.binary = GiveBinary(input);
+
             var sw = new StringWriter();
             serializer.Serialize(sw, gr);
 
@@ -158,32 +158,32 @@ namespace DocumentBroker
             return node as XmlElement;
         }
 
-        public XmlElement? GiveDocumentType(string input, bool isGenerate)
+        public string GiveDocumentType(string input, bool isGenerate)
         {
             XmlDocument document = new XmlDocument();
             document.LoadXml(input);
+            XmlNode node;
 
-            XmlNode node = document.SelectSingleNode("/GenerateDocumentRequest/Document/DocumentType");
-
-            return node as XmlElement;
-        }
-
-        public XmlElement? GiveBinary(string input, bool isGenerate)
-        {
-            XmlDocument document = new XmlDocument();
-            document.LoadXml(input);
-
-            if ()
+            if (isGenerate)
             {
-                XmlNode node = document.SelectSingleNode("/GenerateDocumentRequest/Document/Binary");
-            } 
+                node = document.SelectSingleNode("/GenerateDocumentRequest/Document/DocumentType");
+                return node.FirstChild.ToString();
+            }
             else
             {
-                XmlNode node = document.SelectSingleNode("/StoreDocumentRequest/Document/Binary");
-
+                node = document.SelectSingleNode("/StoreDocumentRequest/Document/DocumentType");
+                return node.FirstChild.ToString();
             }
+        }
 
-            return node as XmlElement;
+        public string GiveBinary(string input)
+        {
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(input);
+
+            XmlNode node = document.SelectSingleNode("/StoreDocumentRequest/Document/Binary");
+
+            return node.FirstChild.ToString();
         }
 
     }

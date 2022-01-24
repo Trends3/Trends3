@@ -3,7 +3,6 @@ using System.Xml.Serialization;
 
 namespace DocumentBroker.Request_objects
 {
-
     [XmlRoot("StorageRequest")]
     public class StorageRequest
     {
@@ -11,9 +10,11 @@ namespace DocumentBroker.Request_objects
         [XmlElement("Ticket")]
         public Guid Ticket;
 
-        public XmlElement? DocumentType { get; set; }
+        [XmlElement("DocumentType")]
+        public string documentType;
 
-        public XmlElement? Binary { get; set; }
+        [XmlElement("Binary")]
+        public string binary;
 
     }
 }

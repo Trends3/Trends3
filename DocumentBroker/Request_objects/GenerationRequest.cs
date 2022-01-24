@@ -10,7 +10,8 @@ namespace DocumentBroker.Request_objects
         [XmlElement("Ticket")]
         public Guid Ticket;
 
-        public XmlElement? DocumentType { get; set; }
+        [XmlElement("DocumentType")]
+        public string documentType;
 
         public XmlElement? Payload { get; set; }
 

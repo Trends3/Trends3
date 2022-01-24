@@ -1,7 +1,5 @@
 ﻿using DocumentBroker;
-using DocumentBroker.Queues;
 using RabbitMQ.Client;
-using System.Data.SqlClient;
 
 class Program
 {
@@ -12,7 +10,7 @@ class Program
 
     static void Main(string[] args)
     {
-    
+
         var factory = new ConnectionFactory
         {
             Uri = new Uri(URI)
