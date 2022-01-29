@@ -4,6 +4,9 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.9-management-alpine
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
     ports:
       - 15672:15672  
 

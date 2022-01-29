@@ -4,6 +4,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace DocumentBroker
@@ -36,6 +37,30 @@ namespace DocumentBroker
                 autoDelete: false,
                 arguments: null);
 
+            channel.QueueDeclare("Application1_Out_queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            channel.QueueDeclare("Application2_Out_queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            channel.QueueDeclare("Generate_Out_queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            channel.QueueDeclare("Store_Out_queue",
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (sender, e) =>
             {
@@ -48,16 +73,16 @@ namespace DocumentBroker
                 switch (request.ToString())
                 {
                     case "g":
-                       
+
                         validator.validation("GenerateRequest_validator2.xsd", message);
                         break;
                     case "s":
-                
+
                         validator.validation("StoreDocument_validator.xsd", message);
 
                         break;
                     case "0":
-                
+
                         validator.validation("GenerateStoreRequest_validator.xsd", message);
 
                         break;
@@ -66,22 +91,45 @@ namespace DocumentBroker
                         Console.WriteLine("Is invalid");
                         break;
                 }
-         
+
 
                 if (Validator.ValidForQ == true)
                 {
                     Serialize se = new Serialize();
                     string autoXml;
                     byte[] encodedAutoXml;
+                    XDocument doc = XDocument.Parse(message);
+
+                    string Application = "";
+
+                    foreach (XElement ApplicationElement in doc.Descendants("Application"))
+                    {
+                        Application = (string)ApplicationElement;
+                    }
 
                     // naar welke service moet ik gaan a.h.v. requesttype
                     switch (request.ToString())
                     {
                         case "g":
 
+                            //request message to generate
                             autoXml = se.CeateGR(message);
                             encodedAutoXml = Encoding.UTF8.GetBytes(autoXml);
                             channel.BasicPublish("", "broker_to_generate", null, encodedAutoXml);
+
+                            //response message to aplication
+                            autoXml = se.CreateGRResponse(message);
+                            encodedAutoXml = Encoding.UTF8.GetBytes(autoXml);
+
+                            if (se.IsItAplication1(Application))
+                            {
+                                channel.BasicPublish("", "Application1_Out_queue", null, encodedAutoXml);
+                            }
+                            else
+                            {
+                                channel.BasicPublish("", "Application2_Out_queue", null, encodedAutoXml);
+                            }
+
                             break;
 
                         case "s":
@@ -90,10 +138,26 @@ namespace DocumentBroker
                             encodedAutoXml = Encoding.UTF8.GetBytes(autoXml);
                             channel.BasicPublish("", "broker_to_store", null, encodedAutoXml);
 
+                            //response message to aplication
+                            autoXml = se.CreateSRResponse(message);
+                            encodedAutoXml = Encoding.UTF8.GetBytes(autoXml);
+
+                            if (se.IsItAplication1(Application))
+                            {
+                                channel.BasicPublish("", "Application1_Out_queue", null, encodedAutoXml);
+                            }
+                            else
+                            {
+                                channel.BasicPublish("", "Application2_Out_queue", null, encodedAutoXml);
+                            }
+
                             break;
 
                         case "0":
 
+                            autoXml = se.CeateGR(message);
+                            encodedAutoXml = Encoding.UTF8.GetBytes(autoXml);
+                            channel.BasicPublish("", "broker_to_generate", null, encodedAutoXml);
 
                             break;
 
@@ -109,9 +173,9 @@ namespace DocumentBroker
             channel.BasicConsume("Applications_In_queue", true, consumer);
             Console.WriteLine("Applications_In_queue Consumer started");
             //channel.BasicConsume("broker_to_generate", true, consumer);
-            Console.WriteLine("Generate_In_queue Consumer started");
+            //Console.WriteLine("Generate_In_queue Consumer started");
             //channel.BasicConsume("broker_to_store", true, consumer);
-            Console.WriteLine("Store_In_queue Consumer started");
+            //Console.WriteLine("Store_In_queue Consumer started");
             Console.ReadLine();
         }
     }
@@ -124,7 +188,7 @@ namespace DocumentBroker
             GenerationRequest gr = new GenerationRequest();
 
             gr.Ticket = Guid.NewGuid();
-            gr.documentType = GiveDocumentType(input, true);
+            gr.documentType = GiveDocumentType(input);
             gr.Payload = GiveGenerate(input);
 
             var sw = new StringWriter();
@@ -139,7 +203,7 @@ namespace DocumentBroker
             StorageRequest gr = new StorageRequest();
 
             gr.Ticket = Guid.NewGuid();
-            gr.documentType = GiveDocumentType(input, false);
+            gr.documentType = GiveDocumentType(input);
             gr.binary = GiveBinary(input);
 
             var sw = new StringWriter();
@@ -148,7 +212,59 @@ namespace DocumentBroker
             return sw.ToString();
         }
 
-        public XmlElement GiveGenerate(string input)
+        public string CreateGRResponse(string input)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(GDRR));
+            GDRR grResponse = new GDRR();
+
+            XDocument doc = XDocument.Parse(input);
+
+            string Con = "";
+
+            foreach (XElement ConElement in doc.Descendants("Con"))
+            {
+                Con = (string)ConElement;
+            }
+
+            ContextGDRR context = new ContextGDRR();
+            context.requestId = Con;
+            context.status = "Succes";
+
+            grResponse.context = context;
+
+            var sw = new StringWriter();
+            serializer.Serialize(sw, grResponse);
+
+            return sw.ToString();
+        }
+
+        public string CreateSRResponse(string input)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(SDRR));
+            SDRR srResponse = new SDRR();
+
+            XDocument doc = XDocument.Parse(input);
+
+            string Con = "";
+
+            foreach (XElement ConElement in doc.Descendants("Con"))
+            {
+                Con = (string)ConElement;
+            }
+
+            ContextSDRR context = new ContextSDRR();
+            context.requestId = Con;
+            context.status = "Succes";
+
+            srResponse.context = context;
+
+            var sw = new StringWriter();
+            serializer.Serialize(sw, srResponse);
+
+            return sw.ToString();
+        }
+
+        private XmlElement GiveGenerate(string input)
         {
             XmlDocument document = new XmlDocument();
             document.LoadXml(input);
@@ -158,33 +274,45 @@ namespace DocumentBroker
             return node as XmlElement;
         }
 
-        public string GiveDocumentType(string input, bool isGenerate)
+        private string GiveDocumentType(string input)
         {
-            XmlDocument document = new XmlDocument();
-            document.LoadXml(input);
-            XmlNode node;
+            XDocument doc = XDocument.Parse(input);
 
-            if (isGenerate)
+            string DocumentType = "";
+
+            foreach (XElement DocumentTypeElement in doc.Descendants("DocumentType"))
             {
-                node = document.SelectSingleNode("/GenerateDocumentRequest/Document/DocumentType");
-                return node.FirstChild.ToString();
+                DocumentType = (string)DocumentTypeElement;
+            }
+
+            return DocumentType;
+        }
+
+        private string GiveBinary(string input)
+        {
+            XDocument doc = XDocument.Parse(input);
+
+            string Binary = "";
+
+            foreach (XElement BinaryElement in doc.Descendants("Binary"))
+            {
+                Binary = (string)BinaryElement;
+            }
+
+            return Binary;
+        }
+
+        public bool IsItAplication1(string input)
+        {
+
+            if (input == "F507A58E-8104-4379-964F-ABC4107983D7")
+            {
+                return true;
             }
             else
             {
-                node = document.SelectSingleNode("/StoreDocumentRequest/Document/DocumentType");
-                return node.FirstChild.ToString();
+                return false;
             }
         }
-
-        public string GiveBinary(string input)
-        {
-            XmlDocument document = new XmlDocument();
-            document.LoadXml(input);
-
-            XmlNode node = document.SelectSingleNode("/StoreDocumentRequest/Document/Binary");
-
-            return node.FirstChild.ToString();
-        }
-
     }
 }

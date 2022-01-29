@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Request_objects\GenerateDocumentResponce.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="NewFile1.txt" />
     <None Remove="Request_objects\NewFile1.txt" />
   </ItemGroup>

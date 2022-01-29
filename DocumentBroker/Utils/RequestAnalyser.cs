@@ -29,7 +29,7 @@ namespace DocumentBroker.Utils
                         if (reader.IsStartElement())
                         {
 
-                           
+
                             switch (reader.Name.ToString())
                             {
                                 case "Generate":
@@ -40,7 +40,7 @@ namespace DocumentBroker.Utils
                                         Store = false;
                                         Generate_store1 = true;
 
-                                     
+
                                     }
 
                                     break;
@@ -53,7 +53,7 @@ namespace DocumentBroker.Utils
                                         Store = false;
                                         Generate_store2 = true;
 
-                                        
+
                                     }
                                     if (Generate_store1 == false)
                                     {
@@ -61,7 +61,7 @@ namespace DocumentBroker.Utils
                                         Store = true;
                                         Generate_store2 = false;
 
-                                   
+
                                     }
 
                                     break;
@@ -75,7 +75,7 @@ namespace DocumentBroker.Utils
                 Console.WriteLine(e.Message);
             }
 
-           
+
             if (Generate == true)
             {
                 Console.WriteLine("Het is een Generate request");

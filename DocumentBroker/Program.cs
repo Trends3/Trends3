@@ -5,22 +5,21 @@ using RabbitMQ.Client;
 class Program
 {
 
-    //Connection naar Rabbitmq Docker Container
-
-    public static string URI = @"amqp://guest:guest@172.18.0.3:5672";
-
     static void Main(string[] args)
     {
+        ConnectionFactory factory;
 
-        var factory = new ConnectionFactory
+        factory = new ConnectionFactory
         {
-            Uri = new Uri(URI)
+            HostName = "rabbitmq",
+            Port = 5672
         };
-
+        factory.UserName = "guest";
+        factory.Password = "guest";
 
         using var connection2 = factory.CreateConnection();
         using var channel = connection2.CreateModel();
-      
+
 
         QueueConsumer queueConsumer = new QueueConsumer();
         QueueProducer queueProducer = new QueueProducer();
