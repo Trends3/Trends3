@@ -34,18 +34,6 @@ namespace DocumentBroker.Utils
             XmlReader v2 = XmlReader.Create(txtReader, settings);
 
 
-
-            //v.Schemas.Add(collection);
-
-
-            //v.ValidationEventHandler += new ValidationEventHandler(MyValidationEventHandler);
-
-
-            //while (v.Read())
-            //{
-            //    //process content
-            //}
-
             try
             {
                 v.Read();
@@ -82,15 +70,6 @@ namespace DocumentBroker.Utils
                 ValidForQ = false;
             }
         }
-
-        public static void MyValidationEventHandler(object sender,
-                                           ValidationEventArgs args)
-        {
-            isValid = false;
-            Console.WriteLine("Validation event\n" + args.Message);
-        }
-
-
 
     }
 }

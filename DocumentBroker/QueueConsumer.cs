@@ -48,16 +48,16 @@ namespace DocumentBroker
                 switch (request.ToString())
                 {
                     case "g":
-                        Console.WriteLine("Generate");
+                       
                         validator.validation("GenerateRequest_validator2.xsd", message);
                         break;
                     case "s":
-                        Console.WriteLine("Store");
+                
                         validator.validation("StoreDocument_validator.xsd", message);
 
                         break;
                     case "0":
-                        Console.WriteLine("Generate Store");
+                
                         validator.validation("GenerateStoreRequest_validator.xsd", message);
 
                         break;
@@ -66,7 +66,7 @@ namespace DocumentBroker
                         Console.WriteLine("Is invalid");
                         break;
                 }
-                //validator.validation("StoreDocument_validator.xsd", message);
+         
 
                 if (Validator.ValidForQ == true)
                 {
@@ -108,9 +108,9 @@ namespace DocumentBroker
 
             channel.BasicConsume("Applications_In_queue", true, consumer);
             Console.WriteLine("Applications_In_queue Consumer started");
-            channel.BasicConsume("Generate_In_queue", true, consumer);
+            //channel.BasicConsume("broker_to_generate", true, consumer);
             Console.WriteLine("Generate_In_queue Consumer started");
-            channel.BasicConsume("Store_In_queue", true, consumer);
+            //channel.BasicConsume("broker_to_store", true, consumer);
             Console.WriteLine("Store_In_queue Consumer started");
             Console.ReadLine();
         }

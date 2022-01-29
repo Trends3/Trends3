@@ -11,7 +11,7 @@ namespace DocumentBroker.Request_objects
         public Guid Ticket;
 
         [XmlElement("DocumentType")]
-        public string documentType;
+        public string? documentType;
 
         public XmlElement? Payload { get; set; }
 
